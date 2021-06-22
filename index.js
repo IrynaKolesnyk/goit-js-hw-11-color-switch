@@ -12,6 +12,8 @@ const refs = {
     btnStop: document.querySelector('[data-action="stop"]'),
 };
 
+let timerId = null;
+
 refs.btnStart.addEventListener('click', onClickStartBtn);
 refs.btnStop.addEventListener('click', onClickStopBtn);
 
@@ -22,23 +24,21 @@ const randomIntegerFromInterval = (min, max) => {
 
 // генерация фонового цвета
 function randomBackgroundColor(array) {
-    const max = array.length - 1;
-    const min = 0;
-    const index = randomIntegerFromInterval(min, max);
-    const color = array[index];
-    document.body.style.backgroundColor = color;
+    const index = randomIntegerFromInterval(0, array.length - 1);
+    document.body.style.backgroundColor = array[index];
 }
 
-// Старт
+// Старт и запуск таймера
 function onClickStartBtn(event) {
-    console.log('Start')
-    randomBackgroundColor(colors);
+    timerId = setInterval(() => {
+        randomBackgroundColor(colors);
+    }, 1000);
     refs.btnStart.disabled = true;
 };
 
-// Стоп
+// Стоп и остановка таймера
 function onClickStopBtn(event) {
-    console.log('Stop')
+    clearInterval(timerId);
     refs.btnStart.disabled = false;
 };
 
